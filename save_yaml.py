@@ -49,4 +49,4 @@ if __name__ == "__main__":
         print("Wczytano dane z pliku YAML:")
         print(data)
         save_yaml_data(data, output_file)
-        print(f"Pomyślnie zapisano dane JSON do pliku {output_file}")
+        print(f"Pomyślnie zapisano dane YAML do pliku {output_file}")
