@@ -1,3 +1,4 @@
+import sys
 import json
 
 def file_syntax(json_str):
@@ -7,7 +8,7 @@ def file_syntax(json_str):
     except ValueError:
         return False
 
- #wczytywanie danych z pliku .json
+# wczytywanie danych z pliku .json
 def load_json_data(file_path):
     with open(file_path, "r") as file:
         json_content = file.read()
@@ -25,11 +26,15 @@ def load_json_data(file_path):
             print("Wystąpił nieoczekiwany błąd:", file_path)
         return None
 
-input_file = input("Podaj nazwę pliku: ")
-data = load_json_data(input_file)
+if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Podaj nazwę pliku wejściowego i wyjściowego jako argumenty.")
+        sys.exit(1)
 
-if data:
-    print("Wczytano dane z pliku JSON:")
-    print(data)
-if data is not None:
-    pass
+    input_file = sys.argv[1]
+
+    data = load_json_data(input_file)
+
+    if data:
+        print("Wczytano dane z pliku JSON:")
+        print(data)
