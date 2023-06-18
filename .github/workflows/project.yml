@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          ref: refs/heads/Task0
 
       - name: Set up Python 3.11.2
         uses: actions/setup-python@v3
@@ -33,12 +31,130 @@ jobs:
           python -m pip install --upgrade pip
           ./installResources.ps1
 
-      - name: Build app with PyInstaller
+      - name: Build and archive app for Task1
+        env:
+          SCRIPT_PATH: ./Task1/parse_arguments.py
+          ARTIFACT_NAME: application-task1
         run: |
-          pyinstaller --onefile --hidden-import=yaml,xmltodict project.py
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
 
-      - name: Archive compiled app
+      - name: Archive compiled app for Task1
         uses: actions/upload-artifact@v3
         with:
-          name: application
-          path: dist/project.exe
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task2
+        env:
+          SCRIPT_PATH: ./Task2/load_json.py
+          ARTIFACT_NAME: application-task2
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task2
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task3
+        env:
+          SCRIPT_PATH: ./Task3/save_json.py
+          ARTIFACT_NAME: application-task3
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task3
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task4
+        env:
+          SCRIPT_PATH: ./Task4/load_yaml.py
+          ARTIFACT_NAME: application-task4
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task4
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task5
+        env:
+          SCRIPT_PATH: ./Task5/save_yaml.py
+          ARTIFACT_NAME: application-task5
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task5
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task6
+        env:
+          SCRIPT_PATH: ./Task6/load_xml.py
+          ARTIFACT_NAME: application-task6
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task6
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task7
+        env:
+          SCRIPT_PATH: ./Task7/save_xml.py
+          ARTIFACT_NAME: application-task7
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task7
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task8
+        env:
+          SCRIPT_PATH: ./Task8/ui.py
+          ARTIFACT_NAME: application-task8
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task8
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Build and archive app for Task9
+        env:
+          SCRIPT_PATH: ./Task9/ui.py
+          ARTIFACT_NAME: application-task9
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict ${{ env.SCRIPT_PATH }}
+          mv dist/project.exe dist/${{ env.ARTIFACT_NAME }}.exe
+
+      - name: Archive compiled app for Task9
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: dist/${{ env.ARTIFACT_NAME }}.exe
+
+ 
