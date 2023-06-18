@@ -1,8 +1,21 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton, QFileDialog
+from PyQt5.QtCore import Qt, QRunnable, QThreadPool, pyqtSlot
 import json
 import yaml
 import xml.etree.ElementTree as ET
+
+class Worker(QRunnable):
+    def __init__(self, func, *args, **kwargs):
+        super().__init__()
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+
+    @pyqtSlot()
+    def run(self):
+        self.func(*self.args, **self.kwargs)
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -24,7 +37,8 @@ class MainWindow(QMainWindow):
     def load_data(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Wybierz plik", "", "JSON Files (*.json);;YAML Files (*.yml *.yaml);;XML Files (*.xml)")
         if file_path:
-            self.read_data(file_path)
+            worker = Worker(self.read_data, file_path)
+            QThreadPool.globalInstance().start(worker)
 
     def read_data(self, file_path):
         if file_path.endswith(".json"):
@@ -60,7 +74,8 @@ class MainWindow(QMainWindow):
     def save_data(self):
         file_path, _ = QFileDialog.getSaveFileName(self, "Zapisz jako", "", "JSON Files (*.json);;YAML Files (*.yml);;XML Files (*.xml)")
         if file_path:
-            self.write_data(file_path)
+            worker = Worker(self.write_data, file_path)
+            QThreadPool.globalInstance().start(worker)
 
     def write_data(self, file_path):
         data = self.label.text().split("\n")[-1]
