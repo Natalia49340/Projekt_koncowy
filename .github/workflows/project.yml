@@ -1,0 +1,42 @@
+name: py-to-exe
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 0 * * 0"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11.2
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11.2"
+
+      - name: Install PyInstaller
+        run: python -m pip install pyinstaller
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          ./installResources.ps1
+
+      - name: Build app with PyInstaller
+        run: |
+          pyinstaller --onefile --hidden-import=yaml,xmltodict project.py
+
+      - name: Archive compiled app
+        uses: actions/upload-artifact@v3
+        with:
+          name: application
+          path: dist/project.exe
